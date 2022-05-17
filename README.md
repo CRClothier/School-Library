@@ -4,7 +4,7 @@ A simple app for keeping track of students and teachers, and which books they ha
 
 ## Built With
 
--Ruby
+- Ruby
 
 ## Additional Used
 
