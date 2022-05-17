@@ -1,6 +1,9 @@
 require './nameable'
 
 class Person < Nameable
+  attr_reader :id
+  attr_accessor :name, :age
+  
   def initialize(age, name = 'unknown', parent_permission: true)
     super()
     @id = Random.rand(1..1000)
@@ -8,9 +11,6 @@ class Person < Nameable
     @age = age
     @parent_permission = parent_permission
   end
-
-  attr_reader :id
-  attr_accessor :name, :age
 
   def correct_name
     @name
