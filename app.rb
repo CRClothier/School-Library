@@ -9,7 +9,10 @@ require './student'
 require './teacher'
 require './trimmer_decorator'
 
+
 class App
+  attr_reader :people, :books
+
   def initialize
     @people = []
     @books = []
@@ -34,11 +37,11 @@ class App
   end
 
   def create_teacher
-    puts 'Age: '
+    print 'Age: '
     age = gets.chomp
-    puts 'Name: '
+    print 'Name: '
     name = gets.chomp
-    puts 'Specialization: '
+    print 'Specialization: '
     specialization = gets.chomp
     new_person = Teacher.new(age, specialization, name)
     @people << new_person
@@ -53,7 +56,7 @@ class App
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp
     permission = permission.upcase == 'Y'
-    new_person = Student.new(age, '', name, permission)
+    new_person = Student.new(age, nil, name, parent_permission: permission)
     @people << new_person
     puts 'Person created successfully'
   end
@@ -84,17 +87,17 @@ class App
 
   def create_rental
     puts 'Select a book from the following list by number:'
-    @books.each { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
+    @books.each_with_index { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
     book_index = gets.chomp.to_i - 1
     puts 'Select a person from the following list by number (not id):'
-    @people.each do |person, i|
+    @people.each_with_index do |person, i|
       puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     person_index = gets.chomp.to_i - 1
     print 'Date: '
     date = gets.chomp.to_i - 1
     Rental.new(date, @books[book_index], @people[person_index])
-    puts Rental created successfully
+    puts 'Rental created successfully'
   end
 
   def list_persons_rentals
