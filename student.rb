@@ -8,7 +8,7 @@ class Student < Person
     super(age, name)
     @parent_permission = parent_permission
     @classroom = classroom
-    classroom.students << self unless @classroom
+    classroom.students << self if @classroom
   end
 
   def classroom=(classroom)
