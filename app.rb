@@ -52,11 +52,7 @@ class App
     name = gets.chomp
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp
-    permission = if permission.upcase == 'Y'
-      true
-    else
-      false
-    end
+    permission = permission.upcase == 'Y'
     new_person = Student.new(age, '', name, permission)
     @people << new_person
     puts 'Person created successfully'
@@ -91,7 +87,7 @@ class App
     @books.each { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
     book_index = gets.chomp.to_i - 1
     puts 'Select a person from the following list by number (not id):'
-    @people.each do |person, i| 
+    @people.each do |person, i|
       puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     person_index = gets.chomp.to_i - 1
@@ -104,8 +100,10 @@ class App
   def list_persons_rentals
     print 'ID of person: '
     id = gets.chomp
-    puts "Rentals:"
-    person = @people.select { |person| person.id = id }
-    person[0].rentals.each { |rental| puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"}
+    puts 'Rentals:'
+    person = @people.select { |p| p.id = id }
+    person[0].rentals.each do |rental|
+      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
+    end
   end
 end

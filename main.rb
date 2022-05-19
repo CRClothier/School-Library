@@ -35,12 +35,9 @@ def main
   when '6'
     app.list_persons_rentals
     main
-  when '7'
-    exit
   else
-    puts 'Invalid option. Please try again...'
-    main
+    exit
   end
 end
 
-main()
+main
