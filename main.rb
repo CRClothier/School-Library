@@ -19,25 +19,20 @@ def main
   case choice
   when '1'
     app.list_books
-    main
   when '2'
     app.list_people
-    main
   when '3'
     app.create_person
-    main
   when '4'
     app.create_book
-    main
   when '5'
     app.create_rental
-    main
   when '6'
     app.list_persons_rentals
-    main
   else
     exit
   end
+  main
 end
 
 main
