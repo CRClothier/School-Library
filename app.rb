@@ -16,20 +16,20 @@ class App
   end
 
   def list_people
-    if @people == []
+    if @people.empty?
       puts
-      puts "No people in system."
+      puts 'No people in system.'
     else
-      @people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+      @people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
     end
   end
 
   def list_books
-    if @books.length == 0
+    if @books.empty?
       puts
-      puts "No books in system."
+      puts 'No books in system.'
     else
-      @books.each { |book| puts "Title: \"#{book.title}\" , Author: #{book.author}"}
+      @books.each { |book| puts "Title: \"#{book.title}\" , Author: #{book.author}" }
     end
   end
 
@@ -52,10 +52,10 @@ class App
     name = gets.chomp
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp
-    if permission.upcase == 'Y'
-      permission = true
+    permission = if permission.upcase == 'Y'
+      true
     else
-      permission = false
+      false
     end
     new_person = Student.new(age, '', name, permission)
     @people << new_person
@@ -65,14 +65,15 @@ class App
   def create_person
     print 'Do you want to create a student (1) or a teacher (2)? [Input the number]: '
     option = gets.chomp
-    if option == '1'
+    case option
+    when '1'
       create_student
-    elsif option == '2'
+    when '2'
       create_teacher
     else
       puts 'Invalid entry. Please try again...'
       create_person
-    end 
+    end
   end
 
   def create_book
@@ -87,10 +88,12 @@ class App
 
   def create_rental
     puts 'Select a book from the following list by number:'
-    @books.each { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}"}
+    @books.each { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
     book_index = gets.chomp.to_i - 1
     puts 'Select a person from the following list by number (not id):'
-    @people.each { |person, i| puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"}
+    @people.each do |person, i| 
+      puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+    end
     person_index = gets.chomp.to_i - 1
     print 'Date: '
     date = gets.chomp.to_i - 1
