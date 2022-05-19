@@ -16,8 +16,7 @@ def main
   app = App.new
   loop do
     options
-    choice = gets.chomp
-    case choice
+    case gets.chomp
     when '1'
       app.list_books
     when '2'

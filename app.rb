@@ -9,7 +9,6 @@ require './student'
 require './teacher'
 require './trimmer_decorator'
 
-
 class App
   attr_reader :people, :books
 
