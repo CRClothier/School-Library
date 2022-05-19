@@ -94,7 +94,7 @@ class App
     end
     person_index = gets.chomp.to_i - 1
     print 'Date: '
-    date = gets.chomp.to_i - 1
+    date = gets.chomp
     Rental.new(date, @books[book_index], @people[person_index])
     puts 'Rental created successfully'
   end
@@ -103,7 +103,7 @@ class App
     print 'ID of person: '
     id = gets.chomp
     puts 'Rentals:'
-    person = @people.select { |p| p.id = id }
+    person = @people.select { |p| @id = id }
     person[0].rentals.each do |rental|
       puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
     end
