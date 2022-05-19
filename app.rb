@@ -103,7 +103,7 @@ class App
     print 'ID of person: '
     id = gets.chomp
     puts 'Rentals:'
-    person = @people.select { |p| @id = id }
+    person = @people.select { @id = id }
     person[0].rentals.each do |rental|
       puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
     end
