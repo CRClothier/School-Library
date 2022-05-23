@@ -1,37 +1,31 @@
 require './book'
-require './capitalize_decorator'
 require './classroom'
-require './decorator'
-require './nameable'
 require './person'
 require './rental'
 require './student'
 require './teacher'
-require './trimmer_decorator'
+
 
 class App
-  attr_reader :people, :books
-
-  def initialize
-    @people = []
-    @books = []
+  def initialize(controller)
+    @controller = controller
   end
 
   def list_people
-    if @people.empty?
+    if @controller.people.empty?
       puts
       puts 'No people in system.'
     else
-      @people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
+      @controller.list_people
     end
   end
 
   def list_books
-    if @books.empty?
+    if @controller.books.empty?
       puts
       puts 'No books in system.'
     else
-      @books.each { |book| puts "Title: \"#{book.title}\" , Author: #{book.author}" }
+      @controller.list_books
     end
   end
 
@@ -43,7 +37,7 @@ class App
     print 'Specialization: '
     specialization = gets.chomp
     new_person = Teacher.new(age, specialization, name)
-    @people << new_person
+    @controller.create_teacher(new_person)
     puts 'Person created successfully'
   end
 
@@ -56,7 +50,7 @@ class App
     permission = gets.chomp
     permission = permission.upcase == 'Y'
     new_person = Student.new(age, nil, name, parent_permission: permission)
-    @people << new_person
+    @controller.create_student(new_person)
     puts 'Person created successfully'
   end
 
@@ -65,9 +59,9 @@ class App
     option = gets.chomp
     case option
     when '1'
-      create_student
+      @controller.create_student
     when '2'
-      create_teacher
+      @controller.create_teacher
     else
       puts 'Invalid entry. Please try again...'
       create_person
@@ -80,22 +74,22 @@ class App
     print 'Author: '
     author = gets.chomp
     new_book = Book.new(title, author)
-    @books << new_book
+    @controller.create_book(new_book)
     puts 'Book created successfully'
   end
 
   def create_rental
     puts 'Select a book from the following list by number:'
-    @books.each_with_index { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
+    @controller.books.each_with_index { |book, i| puts "#{i + 1}) Title: \"#{book.title}\" , Author: #{book.author}" }
     book_index = gets.chomp.to_i - 1
     puts 'Select a person from the following list by number (not id):'
-    @people.each_with_index do |person, i|
+    @controller.people.each_with_index do |person, i|
       puts "#{i + 1}) [#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
     end
     person_index = gets.chomp.to_i - 1
     print 'Date: '
     date = gets.chomp
-    Rental.new(date, @books[book_index], @people[person_index])
+    create_rental(date, @controller.books[book_index], @controller.people[person_index])
     puts 'Rental created successfully'
   end
 
@@ -103,9 +97,6 @@ class App
     print 'ID of person: '
     id = gets.chomp
     puts 'Rentals:'
-    person = @people.select { @id = id }
-    person[0].rentals.each do |rental|
-      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
-    end
+    @controller.list_persons_rentals
   end
 end

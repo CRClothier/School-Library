@@ -1,4 +1,5 @@
 require './app'
+require './controllers'
 
 def options
   puts
@@ -13,7 +14,8 @@ def options
 end
 
 def main
-  app = App.new
+  controller = Controllers.new
+  app = App.new(controller)
   loop do
     options
     case gets.chomp
