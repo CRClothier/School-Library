@@ -1,13 +1,7 @@
 require './book'
-require './capitalize_decorator'
-require './classroom'
-require './decorator'
-require './nameable'
-require './person'
 require './rental'
 require './student'
 require './teacher'
-require './trimmer_decorator'
 
 class Controllers
   attr_reader :people, :books
@@ -18,22 +12,25 @@ class Controllers
   end
 
   def list_people
-    @people.each { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
+    @people.each { |person| yield person }
   end
 
   def list_books
-    @books.each { |book| puts "Title: \"#{book.title}\" , Author: #{book.author}" }
+    @books.each { |book| yield book }
   end
 
-  def create_teacher(new_person)
+  def create_teacher(age, specialization, name)
+    new_person = Teacher.new(age, specialization, name)
     @people << new_person
   end
 
-  def create_student(new_person)
+  def create_student(age, name, permission)
+    new_person = Student.new(age, nil, name, parent_permission: permission)
     @people << new_person
   end
 
-  def create_book(new_book)
+  def create_book(title, author)
+    new_book = Book.new(title, author)
     @books << new_book
   end
 
@@ -41,10 +38,8 @@ class Controllers
     Rental.new(date, book, person)
   end
 
-  def list_persons_rentals
+  def list_persons_rentals(id)
     person = @people.select { @id = id }
-    person[0].rentals.each do |rental|
-    puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
-    end
+    person[0].rentals.each { |rental| yield rental }
   end
 end

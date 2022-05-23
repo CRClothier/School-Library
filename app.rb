@@ -1,10 +1,3 @@
-require './book'
-require './classroom'
-require './person'
-require './rental'
-require './student'
-require './teacher'
-
 
 class App
   def initialize(controller)
@@ -16,7 +9,7 @@ class App
       puts
       puts 'No people in system.'
     else
-      @controller.list_people
+      @controller.list_people { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
     end
   end
 
@@ -25,7 +18,7 @@ class App
       puts
       puts 'No books in system.'
     else
-      @controller.list_books
+      @controller.list_books { |book| puts "Title: \"#{book.title}\" , Author: #{book.author}" }
     end
   end
 
@@ -36,8 +29,7 @@ class App
     name = gets.chomp
     print 'Specialization: '
     specialization = gets.chomp
-    new_person = Teacher.new(age, specialization, name)
-    @controller.create_teacher(new_person)
+    @controller.create_teacher(age, specialization, name)
     puts 'Person created successfully'
   end
 
@@ -49,8 +41,7 @@ class App
     print 'Has parent permission? [Y/N]: '
     permission = gets.chomp
     permission = permission.upcase == 'Y'
-    new_person = Student.new(age, nil, name, parent_permission: permission)
-    @controller.create_student(new_person)
+    @controller.create_student(age, name, permission)
     puts 'Person created successfully'
   end
 
@@ -59,9 +50,9 @@ class App
     option = gets.chomp
     case option
     when '1'
-      @controller.create_student
+      create_student
     when '2'
-      @controller.create_teacher
+      create_teacher
     else
       puts 'Invalid entry. Please try again...'
       create_person
@@ -73,8 +64,7 @@ class App
     title = gets.chomp
     print 'Author: '
     author = gets.chomp
-    new_book = Book.new(title, author)
-    @controller.create_book(new_book)
+    @controller.create_book(title, author)
     puts 'Book created successfully'
   end
 
@@ -89,7 +79,7 @@ class App
     person_index = gets.chomp.to_i - 1
     print 'Date: '
     date = gets.chomp
-    create_rental(date, @controller.books[book_index], @controller.people[person_index])
+    @controller.create_rental(date, @controller.books[book_index], @controller.people[person_index])
     puts 'Rental created successfully'
   end
 
@@ -97,6 +87,8 @@ class App
     print 'ID of person: '
     id = gets.chomp
     puts 'Rentals:'
-    @controller.list_persons_rentals
+    @controller.list_persons_rentals(id) do |rental|
+      puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
+      end
   end
 end
