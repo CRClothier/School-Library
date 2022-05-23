@@ -13,6 +13,7 @@ def options
   puts '7 - Exit'
 end
 
+# rubocop:disable Metrics/CyclomaticComplexity
 def main
   controller = Controllers.new
   app = App.new(controller)
@@ -31,5 +32,6 @@ def main
     end
   end
 end
+# rubocop:enable Metrics/CyclomaticComplexity
 
 main

@@ -1,4 +1,3 @@
-
 class App
   def initialize(controller)
     @controller = controller
@@ -9,7 +8,9 @@ class App
       puts
       puts 'No people in system.'
     else
-      @controller.list_people { |person| puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}" }
+      @controller.list_people do |person|
+        puts "[#{person.class}] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+      end
     end
   end
 
@@ -89,6 +90,6 @@ class App
     puts 'Rentals:'
     @controller.list_persons_rentals(id) do |rental|
       puts "Date: #{rental.date}, Book \"#{rental.book.title}\" by #{rental.book.author}"
-      end
+    end
   end
 end

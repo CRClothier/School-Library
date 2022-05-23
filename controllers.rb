@@ -11,12 +11,12 @@ class Controllers
     @books = []
   end
 
-  def list_people
-    @people.each { |person| yield person }
+  def list_people(&block)
+    @people.each(&block)
   end
 
-  def list_books
-    @books.each { |book| yield book }
+  def list_books(&block)
+    @books.each(&block)
   end
 
   def create_teacher(age, specialization, name)
@@ -38,8 +38,8 @@ class Controllers
     Rental.new(date, book, person)
   end
 
-  def list_persons_rentals(id)
+  def list_persons_rentals(id, &block)
     person = @people.select { @id = id }
-    person[0].rentals.each { |rental| yield rental }
+    person[0].rentals.each(&block)
   end
 end
