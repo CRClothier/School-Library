@@ -13,4 +13,8 @@ class Book
   def add_rental(date, person)
     Rental.new(date, self, person)
   end
+
+  def to_json(*params)
+    {json_class: self.class.name, age: @age, specialization: @specialization, name: @name, id: @id}.to_json
+  end
 end

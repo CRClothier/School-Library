@@ -2,6 +2,7 @@ require './book'
 require './rental'
 require './student'
 require './teacher'
+require 'json'
 
 class Controllers
   attr_reader :people, :books
@@ -41,5 +42,9 @@ class Controllers
   def list_persons_rentals(id, &block)
     person = @people.select { @id = id }
     person[0].rentals.each(&block)
+  end
+
+  def save_data
+    File.open('./data/people.json', 'w') { |f| f.write JSON.dump(@people) }
   end
 end

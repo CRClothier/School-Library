@@ -19,4 +19,8 @@ class Student < Person
   def play_hooky
     '¯\(ツ)/¯'
   end
+
+  def to_json(*params)
+    {json_class: self.class.name, age: @age, classroom: @classroom, name: @name, parent_permission: @parent_permission, id: @id}.to_json
+  end
 end
