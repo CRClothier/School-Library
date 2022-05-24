@@ -11,4 +11,8 @@ class Rental
     @person = person
     person.rentals << self
   end
+
+  def to_json(*params)
+    {json_class:self.class.name, person_id: @person.id, book_title: @book.title, book_author: @book.author}.to_json
+  end
 end
