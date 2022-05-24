@@ -15,6 +15,6 @@ class Book
   end
 
   def to_json(*params)
-    {json_class: self.class.name, age: @age, specialization: @specialization, name: @name, id: @id}.to_json
+    {json_class: self.class.name, title: @title, author: @author}.to_json
   end
 end

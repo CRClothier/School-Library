@@ -46,5 +46,6 @@ class Controllers
 
   def save_data
     File.open('./data/people.json', 'w') { |f| f.write JSON.dump(@people) }
+    File.open('./data/books.json', 'w') { |f| f.write JSON.dump(@books) }
   end
 end
