@@ -2,6 +2,7 @@ require './book'
 require './rental'
 require './student'
 require './teacher'
+require 'json'
 
 class Controllers
   attr_reader :people, :books
@@ -42,4 +43,23 @@ class Controllers
     person = @people.select { @id = id }
     person[0].rentals.each(&block)
   end
+
+  def save_data
+    File.write('./data/people.json', JSON.dump(@people))
+    File.write('./data/books.json', JSON.dump(@books))
+    File.write('./data/rentals.json', JSON.dump((@books.map(&:rentals).flatten)))
+  end
+
+  # rubocop:disable Security/JSONLoad
+  def load_data
+    @people = JSON.load(File.read('./data/people.json'))
+    @books = JSON.load(File.read('./data/books.json'))
+    rentals = JSON.parse(File.read('./data/rentals.json'))
+    rentals.each do |rental|
+      this_book = @books.find { |book| (book.title == rental['book_title']) && (book.author == rental['book_author']) }
+      this_person = @people.find { |person| person.id == rental['person_id'] }
+      Rental.new(rental['date'], this_book, this_person)
+    end
+  end
+  # rubocop:enable Security/JSONLoad
 end
