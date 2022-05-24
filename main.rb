@@ -16,6 +16,7 @@ end
 # rubocop:disable Metrics/CyclomaticComplexity
 def main
   controller = Controllers.new
+  controller.load_data
   app = App.new(controller)
   loop do
     options
@@ -27,7 +28,7 @@ def main
     when '5' then app.create_rental
     when '6' then app.list_persons_rentals
     when '7'
-      controller.save_data 
+      controller.save_data
       exit
     else
       puts 'Invalid input, please try again...'

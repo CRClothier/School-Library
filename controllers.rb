@@ -45,8 +45,21 @@ class Controllers
   end
 
   def save_data
-    File.open('./data/people.json', 'w') { |f| f.write JSON.dump(@people) }
-    File.open('./data/books.json', 'w') { |f| f.write JSON.dump(@books) }
-    File.open('./data/rentals.json', 'w') { |f| f.write JSON.dump((@books.map(&:rentals).flatten)) }
+    File.write('./data/people.json', JSON.dump(@people))
+    File.write('./data/books.json', JSON.dump(@books))
+    File.write('./data/rentals.json', JSON.dump((@books.map(&:rentals).flatten)))
   end
+
+  # rubocop:disable Security/JSONLoad
+  def load_data
+    @people = JSON.load(File.read('./data/people.json'))
+    @books = JSON.load(File.read('./data/books.json'))
+    rentals = JSON.parse(File.read('./data/rentals.json'))
+    rentals.each do |rental|
+      this_book = @books.find { |book| (book.title == rental['book_title']) && (book.author == rental['book_author']) }
+      this_person = @people.find { |person| person.id == rental['person_id'] }
+      Rental.new(rental['date'], this_book, this_person)
+    end
+  end
+  # rubocop:enable Security/JSONLoad
 end
