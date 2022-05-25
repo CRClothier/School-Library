@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-
-require_relative "Library/version"
+# rubocop:disable Naming/FileName
+require_relative 'Library/version'
 
 module School
   module Library
@@ -8,3 +7,4 @@ module School
     # Your code goes here...
   end
 end
+# rubocop:enable Naming/FileName
